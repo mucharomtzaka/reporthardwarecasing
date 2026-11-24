@@ -1,0 +1,72 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "hardware",
+      "password": "hardware123",
+      "nama": "Teknisi Hardware",
+      "role": "Teknisi Hardware"
+    },
+    {
+      "id": 2,
+      "username": "casing",
+      "password": "casing123",
+      "nama": "Teknisi Casing",
+      "role": "Teknisi Casing"
+    }
+  ],
+  "jenisAlat": [
+    {
+      "id": 1,
+      "nama": "LCD Pecah / Garis"
+    },
+    {
+      "id": 2,
+      "nama": "Mesin Matot / Korslet"
+    },
+    {
+      "id": 3,
+      "nama": "Baterai Kembung / Drop"
+    },
+    {
+      "id": 4,
+      "nama": "IC Power / IC Charging"
+    },
+    {
+      "id": 5,
+      "nama": "Board / Motherboard PC"
+    },
+    {
+      "id": 6,
+      "nama": "Flexible / Konektor Rusak"
+    },
+    {
+      "id": 7,
+      "nama": "Kamera / Speaker / Mic"
+    },
+    {
+      "id": 8,
+      "nama": "Part Rusak Lainnya"
+    }
+  ],
+  "kategoriLokasi": [
+    {
+      "id": 1,
+      "nama": "Gudang Afkir"
+    },
+    {
+      "id": 2,
+      "nama": "Gudang Kanibal"
+    },
+    {
+      "id": 3,
+      "nama": "Teknisi Limin"
+    },
+    {
+      "id": 4,
+      "nama": "Admin Stock"
+    }
+  ],
+  "laporan": [],
+  "db": "hardware_rusak"
+}

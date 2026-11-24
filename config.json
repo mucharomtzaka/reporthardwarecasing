@@ -1,0 +1,10 @@
+{
+  "host": "localhost",
+  "user": "root",
+  "password": "",
+  "port": 3306,
+  "databases": {
+    "hardware": "laporan_hardware",
+    "casing": "laporan_casing"
+  }
+}

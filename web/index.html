@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Laporan Service & Manajemen Kerusakan</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- ExcelJS Offline Local with CDN Fallback -->
+  <script src="exceljs.min.js"></script>
+  <script>
+    if (typeof ExcelJS === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"><\/script>');
+    }
+  </script>
+</head>
+<body>
+  <!-- ================= LAYAR LOGIN ================= -->
+  <div id="loginScreen">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="login-logo-badge">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <h2 class="login-title">Sistem Laporan Service</h2>
+          <p class="login-subtitle">Masuk untuk mengelola data service hardware & casing</p>
+        </div>
+
+        <div id="loginError" class="login-error" style="display: none;"></div>
+
+        <form onsubmit="handleLoginSubmit(event)" autocomplete="off">
+          <div class="login-form-group">
+            <label for="loginUsername">Username</label>
+            <div class="login-input-container">
+              <span class="login-input-icon">👤</span>
+              <input type="text" id="loginUsername" placeholder="Username" required autocomplete="off">
+            </div>
+          </div>
+
+          <div class="login-form-group">
+            <label for="loginPassword">Password</label>
+            <div class="login-input-container">
+              <span class="login-input-icon">🔒</span>
+              <input type="password" id="loginPassword" placeholder="Masukkan password" required autocomplete="off">
+              <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility('loginPassword')" title="Lihat / Sembunyikan Password">👁️</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-login-action">
+            <span>Masuk ke Dashboard</span>
+            <span class="btn-login-arrow">→</span>
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Topbar -->
+  <div class="mobile-topbar" id="mobileTopbar">
+    <button type="button" class="btn-mobile-menu" onclick="toggleMobileSidebar()" title="Buka Menu">☰</button>
+    <div class="mobile-title" id="mobileTitle">Laporan Service</div>
+    <div style="width: 28px;"></div>
+  </div>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+  <!-- ================= APLIKASI UTAMA (SIDEBAR + MAIN CONTENT) ================= -->
+  <div id="appScreen" style="display: none;">
+    <div class="app-layout">
+
+      <!-- ================= SIDEBAR ================= -->
+      <aside class="sidebar" id="sidebar">
+        <!-- Brand Header di Sidebar -->
+        <div class="sidebar-brand">
+          <div class="brand-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">SERVICE APP</span>
+            <span class="brand-badge" id="sidebarRoleBadge">HARDWARE</span>
+          </div>
+        </div>
+
+        <!-- User Profile Card -->
+        <div class="user-profile-card">
+          <div class="avatar-wrap" onclick="openEditProfilModal()" title="Klik untuk edit profil">
+            <div id="sidebarAvatarContainer">
+              <svg viewBox="0 0 100 100" style="width: 100%; height: 100%; border-radius: 50%;">
+                <circle cx="50" cy="50" r="48" fill="#e0f2fe"/>
+                <path d="M28 44 C26 28 35 14 50 14 C65 14 74 28 72 44 Z" fill="#b45309"/>
+                <path d="M42 56 L42 68 L58 68 L58 56 Z" fill="#fed7aa"/>
+                <ellipse cx="50" cy="42" rx="19" ry="20" fill="#fde68a"/>
+                <path d="M30 38 C34 22 46 16 54 16 C66 16 70 24 69 32 C61 25 50 22 39 28 C34 30 31 35 30 38 Z" fill="#9a3412"/>
+                <ellipse cx="31" cy="42" rx="3.5" ry="5.5" fill="#fde68a"/>
+                <ellipse cx="69" cy="42" rx="3.5" ry="5.5" fill="#fde68a"/>
+                <circle cx="43" cy="41" r="2.2" fill="#0f172a"/>
+                <circle cx="57" cy="41" r="2.2" fill="#0f172a"/>
+                <path d="M39 36 Q43 34 47 36" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <path d="M53 36 Q57 34 61 36" stroke="#9a3412" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <path d="M45 49 Q50 54 55 49" stroke="#b45309" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M20 92 C22 74 33 66 42 65 L42 76 L50 83 L58 76 L58 65 C67 66 78 74 80 92 Z" fill="#0f2744"/>
+                <polygon points="42,65 50,78 39,66" fill="#ffffff"/>
+                <polygon points="58,65 50,78 61,66" fill="#ffffff"/>
+                <polygon points="50,67 54,72 50,90 46,72" fill="#2563eb"/>
+              </svg>
+            </div>
+          </div>
+          <div class="user-greet">Selamat Datang,</div>
+          <div class="user-name" id="sidebarUserName">Teknisi Hardware</div>
+          <button type="button" class="btn-edit-profile" onclick="openEditProfilModal()" title="Edit Profil Pengguna">✏️ Edit Profil</button>
+        </div>
+
+        <!-- Sidebar Navigation Menu -->
+        <nav class="sidebar-nav">
+          <div class="nav-section-title">MENU UTAMA</div>
+          <button class="nav-item active" id="btn-nav-dashboard" onclick="showTab('dashboard'); closeMobileSidebar();">
+            <span class="nav-icon">🏠</span>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item" id="btn-nav-laporan" onclick="showTab('laporan'); closeMobileSidebar();">
+            <span class="nav-icon">📑</span>
+            <span id="navLaporanText">Data Laporan</span>
+          </button>
+          <button class="nav-item" id="btn-nav-master" onclick="showTab('master'); closeMobileSidebar();">
+            <span class="nav-icon">🔧</span>
+            <span id="navMasterText">Data Kategori</span>
+          </button>
+          <button class="nav-item" id="btn-nav-bulanan" onclick="showTab('bulanan'); closeMobileSidebar();">
+            <span class="nav-icon">📊</span>
+            <span>Laporan Bulanan</span>
+          </button>
+        </nav>
+
+        <!-- Quick Add Button in Sidebar -->
+        <div class="quick-add-card">
+          <button class="quick-add-btn" id="sidebarQuickAddBtn" onclick="openLaporanModal(); closeMobileSidebar();" title="Tambah Data Baru">
+            <span>+</span>
+          </button>
+          <div class="quick-add-label" id="sidebarQuickAddLabel">Tambah Data</div>
+        </div>
+
+        <!-- Bottom Logout Button -->
+        <div class="sidebar-bottom">
+          <button class="btn-sidebar-logout" onclick="logout()" title="Keluar dari akun">
+            <span style="font-size: 16px;">➔</span>
+            <span>Keluar Akun</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- ================= MAIN CONTENT ================= -->
+      <main class="main-content">
+        <!-- ================= NAVBAR LANDING PAGE / BAGIAN KERJA ================= -->
+        <header class="landing-navbar" id="landingNavbar">
+          <div class="landing-navbar-left">
+            <div class="landing-navbar-label">BAGIAN KERJA:</div>
+            <div class="landing-tabs" id="landingTabsContainer">
+              <!-- Rendered dynamically by JavaScript based on active user -->
+            </div>
+          </div>
+          <div class="landing-navbar-right">
+            <div id="currentSectionBadge" class="section-badge">
+              <span class="section-dot"></span>
+              <span id="currentSectionTitle">Service HP, PC & Tab</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Top Utility Bar -->
+        <div class="topbar">
+          <div class="topbar-left">
+            <div id="saveStatusIndicator" class="status-badge saved" title="Status penyimpanan otomatis">
+              <span class="status-dot"></span>
+              <span id="saveStatusText">Tersimpan otomatis</span>
+            </div>
+            
+            <div id="dbStatusBadge" class="status-badge status-db" title="Informasi database aktif">
+              🗄️ Database: Memuat...
+            </div>
+          </div>
+          <div class="topbar-right">
+            <button class="btn-save-manual" onclick="manualSaveData()" title="Simpan data ke server">💾 Simpan Data</button>
+            <button class="btn-excel" onclick="openExportModal()" title="Export data ke file Excel (.xlsx)">📊 Export Excel</button>
+          </div>
+        </div>
+
+        <!-- ================= TAB 1: DASHBOARD ================= -->
+        <div id="tab-dashboard" class="tab active">
+          <div class="dashboard-header">
+            <div>
+              <h1 class="dashboard-title" id="dashboardLandingTitle">Dashboard Laporan Service</h1>
+              <p class="dashboard-subtitle" id="dashboardLandingSubtitle">Pantau seluruh aktivitas perbaikan dan laporan service secara real-time</p>
+            </div>
+            <div class="dashboard-date-badge">
+              <span>📅</span>
+              <span id="currentMonthYearDisplay">November 2026</span>
+            </div>
+          </div>
+
+          <!-- 4 Stat Cards in 1 Row -->
+          <div class="stat-cards-grid">
+            <!-- Card 1: Total Laporan / Data -->
+            <div class="stat-card stat-card-blue">
+              <div class="stat-top">
+                <div class="stat-icon stat-icon-blue">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-label" id="statCard1Label">TOTAL LAPORAN</div>
+                  <div class="stat-value text-blue" id="statTotalLaporan">0</div>
+                </div>
+              </div>
+              <div class="stat-desc" id="statCard1Desc">Semua laporan terdata</div>
+            </div>
+
+            <!-- Card 2: Total Unit / Alat -->
+            <div class="stat-card stat-card-navy">
+              <div class="stat-top">
+                <div class="stat-icon stat-icon-navy">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-label" id="statCard2Label">TOTAL UNIT</div>
+                  <div class="stat-value text-navy" id="statTotalAlat">0</div>
+                </div>
+              </div>
+              <div class="stat-desc" id="statCard2Desc">Akumulasi jumlah unit</div>
+            </div>
+
+            <!-- Card 3: Selesai -->
+            <div class="stat-card stat-card-green">
+              <div class="stat-top">
+                <div class="stat-icon stat-icon-green">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-label" id="statCard3Label">SELESAI</div>
+                  <div class="stat-value text-green" id="statTotalSelesai">0</div>
+                </div>
+              </div>
+              <div class="stat-desc" id="statPersenSelesai">0% dari total laporan</div>
+            </div>
+
+            <!-- Card 4: Belum Selesai / Dalam Proses -->
+            <div class="stat-card stat-card-amber">
+              <div class="stat-top">
+                <div class="stat-icon stat-icon-amber">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-label" id="statCard4Label">BELUM SELESAI</div>
+                  <div class="stat-value text-amber" id="statTotalBelum">0</div>
+                </div>
+              </div>
+              <div class="stat-desc" id="statPersenBelum">0% dari total laporan</div>
+            </div>
+          </div>
+
+          <!-- Laporan Terbaru Card Container -->
+          <div class="recent-reports-card">
+            <div class="recent-header">
+              <div class="recent-title-group">
+                <h2 id="recentHeaderTitle">Data Terbaru</h2>
+                <span class="badge-count" id="recentBadgeCount">5 data terakhir</span>
+              </div>
+              <button class="btn-primary-sm" onclick="openLaporanModal()">+ Tambah Data</button>
+            </div>
+            <div class="recent-table-wrap">
+              <table>
+                <thead>
+                  <tr id="recentTableHead"></tr>
+                </thead>
+                <tbody id="recentLaporanTable"></tbody>
+              </table>
+            </div>
+            <div class="recent-footer">
+              <button class="btn-see-all" onclick="showTab('laporan')">Lihat Seluruh Data Tabel ➔</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 2: DATA LAPORAN (FULL TABLE & SEARCH/FILTER) ================= -->
+        <div id="tab-laporan" class="tab">
+          <!-- Page Header -->
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title" id="pageLaporanTitle">Tabel Data Laporan</h1>
+              <p class="page-desc" id="pageLaporanDesc">Kelola, cari, filter, import dan export seluruh data</p>
+            </div>
+            <div class="toolbar-actions">
+              <button type="button" class="btn-outline-excel" onclick="document.getElementById('importLaporanFileInput').click()" title="Import data dari file Excel (.xlsx / .xls)">
+                📥 Import Excel
+              </button>
+              <input type="file" id="importLaporanFileInput" accept=".xlsx, .xls" style="display: none;" onchange="importLaporanExcelFromInput(event)">
+              <button class="btn-excel" onclick="openExportModal()" title="Export data ke file Excel (.xlsx)">📊 Export Excel</button>
+              <button class="btn-primary" id="btnTambahLaporanMain" onclick="openLaporanModal()">+ Tambah Data</button>
+            </div>
+          </div>
+
+          <!-- Search & Filter Bar -->
+          <div class="table-control-card">
+            <div class="search-input-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="searchLaporan" placeholder="Cari No, Jenis, Lokasi, Keterangan..." oninput="renderLaporan()">
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+              <div class="filter-group" id="filterGroupStatus">
+                <label>Status:</label>
+                <select id="filterStatus" onchange="applyFilter()" title="Filter berdasarkan status">
+                  <option value="semua">Semua Status</option>
+                  <option value="selesai">✓ Selesai</option>
+                  <option value="belum">⏳ Belum Selesai</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label id="lblFilterJenisAlat">Jenis / Kategori:</label>
+                <select id="filterJenisAlat" onchange="applyFilter()" title="Filter berdasarkan jenis / kategori">
+                  <option value="">Semua Kategori</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label>Bulan Masuk:</label>
+                <select id="filterBulan" onchange="applyFilter()" title="Filter berdasarkan bulan">
+                  <option value="">Semua Bulan</option>
+                  <option value="01">Januari</option>
+                  <option value="02">Februari</option>
+                  <option value="03">Maret</option>
+                  <option value="04">April</option>
+                  <option value="05">Mei</option>
+                  <option value="06">Juni</option>
+                  <option value="07">Juli</option>
+                  <option value="08">Agustus</option>
+                  <option value="09">September</option>
+                  <option value="10">Oktober</option>
+                  <option value="11">November</option>
+                  <option value="12">Desember</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label>Tahun:</label>
+                <select id="filterTahun" onchange="applyFilter()" title="Filter berdasarkan tahun">
+                  <option value="">Semua Tahun</option>
+                </select>
+              </div>
+
+              <button class="btn-reset-filter" onclick="resetFilter()" title="Reset semua filter">✕ Reset</button>
+              <span id="filterActiveBadge" class="filter-active-pill" style="display: none;">0 aktif</span>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr id="laporanTableHead"></tr>
+              </thead>
+              <tbody id="laporanTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ================= TAB 3: DAFTAR KATEGORI (KATEGORI ALAT & KATEGORI LOKASI) ================= -->
+        <div id="tab-master" class="tab">
+          <!-- Page Header -->
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title" id="pageMasterTitle">Data Kategori & Master</h1>
+              <p class="page-desc" id="pageMasterDesc">Kelola daftar pilihan jenis barang dan lokasi sumber khusus untuk database aktif ini</p>
+            </div>
+          </div>
+
+          <!-- Sub-tab Pills -->
+          <div class="kategori-subtabs">
+            <button type="button" class="kategori-pill active" id="btn-subtab-alat" onclick="switchKategoriSubtab('alat')">
+              <span id="pillKategoriAlatText">🔧 Kategori Barang / Alat</span>
+            </button>
+            <button type="button" class="kategori-pill" id="btn-subtab-lokasi" onclick="switchKategoriSubtab('lokasi')">
+              <span>📍 Kategori Lokasi / Sumber</span>
+            </button>
+          </div>
+
+          <!-- Card 1: Kategori Alat -->
+          <div class="kategori-card" id="cardKategoriAlat">
+            <div class="kategori-card-header">
+              <div class="kategori-card-title">
+                <span class="kategori-card-icon">🔧</span>
+                <h2 id="cardTitleJenisAlat">Daftar Kategori / Jenis</h2>
+              </div>
+              <button class="btn-primary" id="btnTambahJenisAlat" onclick="openJenisAlatModal()">+ Tambah Kategori</button>
+            </div>
+            <div class="table-container" style="border: none; box-shadow: none;">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">NO</th>
+                    <th id="thMasterNamaAlat">NAMA KATEGORI / JENIS</th>
+                    <th style="width: 170px; text-align: center;">AKSI</th>
+                  </tr>
+                </thead>
+                <tbody id="jenisAlatTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Card 2: Kategori Lokasi -->
+          <div class="kategori-card" id="cardKategoriLokasi">
+            <div class="kategori-card-header">
+              <div class="kategori-card-title">
+                <span class="kategori-card-icon" style="color: #2563eb;">📍</span>
+                <h2>Daftar Kategori Lokasi / Sumber</h2>
+              </div>
+              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <button type="button" class="btn-outline-excel" onclick="exportLokasiExcel()" title="Export data lokasi ke Excel simpel">
+                  📤 Export Excel
+                </button>
+                <button type="button" class="btn-outline-excel" onclick="document.getElementById('importLokasiFileInput').click()" title="Import / perbarui data lokasi dari file Excel">
+                  📥 Import Excel
+                </button>
+                <input type="file" id="importLokasiFileInput" accept=".xlsx, .xls" style="display: none;" onchange="importLokasiExcelFromInput(event)">
+                <button class="btn-primary" onclick="openLokasiModal()">+ Tambah Lokasi</button>
+              </div>
+            </div>
+            <div class="table-container" style="border: none; box-shadow: none;">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">NO</th>
+                    <th>NAMA KATEGORI LOKASI / SUMBER</th>
+                    <th style="width: 170px; text-align: center;">AKSI</th>
+                  </tr>
+                </thead>
+                <tbody id="lokasiTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 4: LAPORAN BULANAN ================= -->
+        <div id="tab-bulanan" class="tab">
+          <div class="page-title-bar">
+            <div>
+              <h1 class="page-title" id="tabBulananJudul">Laporan Bulanan & Rekap</h1>
+              <p class="page-desc">Rekapitulasi berkala berdasarkan periode bulan dan tahun</p>
+            </div>
+            <button class="btn-excel" onclick="openExportModal()" title="Export rekap ke file Excel (.xlsx)">📊 Export Rekap Excel</button>
+          </div>
+
+          <div class="table-control-card" style="margin-bottom: 24px;">
+            <div class="filter-bar">
+              <div class="filter-group">
+                <label>Pilih Bulan:</label>
+                <select id="tabCekBulan" onchange="renderCekBulananTab()" style="min-width: 150px;">
+                  <option value="01">Januari</option>
+                  <option value="02">Februari</option>
+                  <option value="03">Maret</option>
+                  <option value="04">April</option>
+                  <option value="05">Mei</option>
+                  <option value="06">Juni</option>
+                  <option value="07">Juli</option>
+                  <option value="08">Agustus</option>
+                  <option value="09">September</option>
+                  <option value="10">Oktober</option>
+                  <option value="11">November</option>
+                  <option value="12">Desember</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>Tahun:</label>
+                <input type="number" id="tabCekTahun" style="width: 120px;" oninput="renderCekBulananTab()" min="2020" max="2099" placeholder="2026">
+              </div>
+            </div>
+          </div>
+
+          <div id="tabBulananResult"></div>
+        </div>
+      </main>
+    </div>
+  </div><!-- /#appScreen -->
+
+  <!-- ================= MODAL LAPORAN ================= -->
+  <div id="modalLaporan" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalLaporanTitle">Tambah Data Baru</h2>
+        <button class="modal-close-btn" onclick="closeLaporanModal()">✕</button>
+      </div>
+      <input type="hidden" id="laporanId">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>No. Laporan / Kode <span class="label-hint">(Otomatis)</span></label>
+          <input type="text" id="laporanNo" readonly placeholder="Otomatis" class="input-readonly">
+        </div>
+        <div class="form-group">
+          <label id="lblModalJumlah">Jumlah Unit *</label>
+          <input type="number" id="laporanJumlah" value="1" min="1" required>
+        </div>
+        <div class="form-group">
+          <label id="lblModalTglMasuk">Tanggal Masuk *</label>
+          <input type="date" id="laporanTglMasuk" onchange="hitungLamaHari()" required>
+        </div>
+        <div class="form-group" id="grpTglKeluar">
+          <label id="lblModalTglKeluar">Tanggal Keluar / Selesai</label>
+          <input type="date" id="laporanTglKeluar" onchange="hitungLamaHari()">
+          <div id="statusPreview" style="margin-top: 6px;"></div>
+        </div>
+        <div class="form-group">
+          <label id="lblModalJenisAlat">Jenis / Kategori *</label>
+          <select id="laporanJenisAlat" required></select>
+        </div>
+        <div class="form-group">
+          <label id="lblModalKondisi">Kondisi / Status Barang</label>
+          <select id="laporanKondisi">
+            <option value="Lama">Lama</option>
+            <option value="Baru">Baru</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label id="lblModalLokasi">Lokasi / Dari (Sumber) *</label>
+          <input type="text" id="laporanLokasi" list="lokasiDatalist" placeholder="Pilih atau ketik Lokasi / Sumber..." autocomplete="off" required>
+          <datalist id="lokasiDatalist"></datalist>
+        </div>
+        <div class="form-group" id="grpPersenHidup" style="display: none;">
+          <label>Persentase Sparepart Hidup (%) *</label>
+          <input type="number" id="laporanPersenHidup" min="0" max="100" step="1" placeholder="Contoh: 60">
+          <div class="label-hint" style="margin-top: 4px;">0% = semua sparepart mati, 100% = semua masih hidup</div>
+        </div>
+        <div class="form-group full">
+          <label id="lblModalKeterangan">Keterangan / Jenis Perbaikan *</label>
+          <textarea id="laporanKeterangan" rows="3" placeholder="Deskripsi keluhan, jenis perbaikan, atau kerusakan..." required></textarea>
+        </div>
+        <div class="form-group" id="grpLamaHari">
+          <label>Lama Hari Pengerjaan</label>
+          <input type="number" id="laporanLamaHari" readonly value="0" class="input-readonly">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeLaporanModal()">Batal</button>
+        <button type="button" class="btn-save" onclick="saveLaporan()">Simpan Data</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL JENIS ALAT ================= -->
+  <div id="modalJenisAlat" class="modal">
+    <div class="modal-content modal-sm">
+      <div class="modal-header">
+        <h2 id="modalJenisAlatTitle">Tambah Kategori</h2>
+        <button class="modal-close-btn" onclick="closeJenisAlatModal()">✕</button>
+      </div>
+      <input type="hidden" id="jenisAlatId">
+      <div class="form-group" style="margin-top: 10px;">
+        <label id="lblModalJenisAlatNama">Nama Kategori / Jenis *</label>
+        <input type="text" id="jenisAlatNama" placeholder="Contoh: INF SMART 10" onkeydown="if(event.key==='Enter') saveJenisAlat()">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeJenisAlatModal()">Batal</button>
+        <button type="button" class="btn-save" onclick="saveJenisAlat()">Simpan Kategori</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL KATEGORI LOKASI ================= -->
+  <div id="modalKategoriLokasi" class="modal">
+    <div class="modal-content modal-sm">
+      <div class="modal-header">
+        <h2 id="modalKategoriLokasiTitle">Tambah Kategori Lokasi</h2>
+        <button class="modal-close-btn" onclick="closeLokasiModal()">✕</button>
+      </div>
+      <input type="hidden" id="kategoriLokasiId">
+      <div class="form-group" style="margin-top: 10px;">
+        <label>Nama Kategori Lokasi / Sumber *</label>
+        <input type="text" id="kategoriLokasiNama" placeholder="Contoh: Teknisi Limin / Rutan Bangil" onkeydown="if(event.key==='Enter') saveKategoriLokasi()">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeLokasiModal()">Batal</button>
+        <button type="button" class="btn-save" onclick="saveKategoriLokasi()">Simpan Kategori</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL EDIT PROFIL ================= -->
+  <div id="modalEditProfil" class="modal">
+    <div class="modal-content modal-md">
+      <div class="modal-header">
+        <h2>👤 Edit Profil Pengguna</h2>
+        <button class="modal-close-btn" onclick="closeEditProfilModal()">✕</button>
+      </div>
+      <div id="editProfilError" class="login-error" style="display: none; margin-bottom: 14px;"></div>
+
+      <div class="form-grid">
+        <div class="form-group full" style="text-align: center; margin-bottom: 8px;">
+          <label style="margin-bottom: 8px;">Foto / Avatar Profil</label>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 10px;">
+            <div id="editProfilAvatarPreview" style="width: 72px; height: 72px; border-radius: 50%; overflow: hidden; background: #eff6ff; border: 2.5px solid #2563eb; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(37,99,235,0.2);">
+            </div>
+            <div style="text-align: left;">
+              <button type="button" class="btn-save-manual" onclick="document.getElementById('editProfilUploadInput').click()" style="padding: 6px 12px; font-size: 12px;">📁 Unggah Foto</button>
+              <input type="file" id="editProfilUploadInput" accept="image/*" style="display: none;" onchange="handleProfilePhotoUpload(event)">
+              <button type="button" class="btn-reset-filter" onclick="resetProfileAvatarToDefault()" style="padding: 6px 10px; font-size: 11.5px; margin-left: 6px;">Reset</button>
+              <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Dukung file gambar JPG, PNG, atau SVG</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group full">
+          <label>Nama Lengkap *</label>
+          <input type="text" id="editProfilNama" placeholder="Contoh: Teknisi Hardware" required>
+        </div>
+
+        <div class="form-group">
+          <label>Username *</label>
+          <input type="text" id="editProfilUsername" placeholder="Contoh: hardware" required>
+        </div>
+
+        <div class="form-group">
+          <label>Jabatan / Peran</label>
+          <input type="text" id="editProfilRole" placeholder="Contoh: Teknisi Hardware / Teknisi Casing">
+        </div>
+
+        <div class="form-group">
+          <label>Password Baru <span style="font-weight: normal; font-size: 11px; color: #64748b;">(Opsional)</span></label>
+          <input type="password" id="editProfilPassword" placeholder="Biarkan kosong jika tidak ganti">
+        </div>
+
+        <div class="form-group">
+          <label>Konfirmasi Password</label>
+          <input type="password" id="editProfilPasswordConfirm" placeholder="Ulangi password baru">
+        </div>
+      </div>
+
+      <div class="modal-notice">
+        💡 <b>Info:</b> Perubahan nama dan jabatan juga otomatis disinkronkan ke kolom tanda tangan laporan cetak & export.
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeEditProfilModal()">Batal</button>
+        <button type="button" class="btn-save" onclick="saveEditProfil()">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL EXPORT EXCEL ================= -->
+  <div id="modalExportExcel" class="modal">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2>📊 Export Excel & Tanda Tangan</h2>
+        <button class="modal-close-btn" onclick="closeExportModal()">✕</button>
+      </div>
+      
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label style="font-weight: 600; color: #0f172a;">Pilih Periode / Bulan (Beda Sheet & File per Bulan)</label>
+        <select id="exportPeriodeBulan" onchange="onExportBulanChange()" style="font-weight: 600; color: #1d4ed8; background: #f8fafc; border-color: #cbd5e1; padding: 10px 12px; font-size: 13.5px;">
+        </select>
+        <small style="color: #64748b; font-size: 11.5px; margin-top: 4px; display: block;">
+          📁 Setiap bulan otomatis dipisahkan per sheet atau per file agar rapi dan mudah diarsipkan.
+        </small>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label>Judul Laporan Excel</label>
+        <input type="text" id="exportTitle" value="Laporan Service Bulanan" placeholder="Contoh: Laporan Service Bulanan">
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: #0f172a;">
+          <input type="checkbox" id="exportSigEnabled" checked style="width: 18px; height: 18px; accent-color: #2563eb;" onchange="toggleSigForm(this.checked)">
+          Sertakan Kolom Tanda Tangan dan Tanggal Laporan di Bagian Bawah
+        </label>
+      </div>
+
+      <div id="sigFormContainer">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="margin: 0;">Kota & Tanggal Laporan</label>
+            <button type="button" onclick="setTodayDateSig()" style="background: none; border: none; color: #2563eb; font-size: 12px; cursor: pointer; text-decoration: underline;">Gunakan Tanggal Hari Ini</button>
+          </div>
+          <input type="text" id="exportKotaTanggal" value="Magelang, 31 Oktober 2026" placeholder="Contoh: Magelang, 31 Oktober 2026">
+        </div>
+
+        <div class="form-grid" style="margin-top: 10px;">
+          <!-- Pihak 1: Mengetahui -->
+          <div class="sig-card">
+            <h3>👤 Pihak Mengetahui</h3>
+            <div class="form-group">
+              <label>Status / Bagian</label>
+              <span id="exportMengetahuiTitle" class="form-text-static" style="font-weight: 600; color: #334155;">Mengetahui,</span>
+            </div>
+            <div class="form-group">
+              <label>Nama Penandatangan</label>
+              <input type="text" id="exportMengetahuiNama" value="Wiyatmo Diarto, SE">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Jabatan</label>
+              <input type="text" id="exportMengetahuiJabatan" value="Manager Muffaindo">
+            </div>
+          </div>
+
+          <!-- Pihak 2: Dibuat Oleh -->
+          <div class="sig-card">
+            <h3>✍️ Pihak Pembuat (Kanan)</h3>
+            <div class="form-group">
+              <label>Status / Bagian</label>
+              <input type="text" id="exportPembuatTitle" value="Dibuat Oleh,">
+            </div>
+            <div class="form-group">
+              <label>Nama Penandatangan</label>
+              <input type="text" id="exportPembuatNama" value="Teknisi Service">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Jabatan</label>
+              <input type="text" id="exportPembuatJabatan" value="Teknisi Service">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeExportModal()">Batal</button>
+        <button type="button" class="btn-excel" onclick="confirmExportToExcel()">📥 Download File Excel (.xlsx)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

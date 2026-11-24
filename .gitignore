@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime data
+*.pid
+
+# Config sensitif (edit sesuai server masing-masing)
+# config.json  # uncomment jika tidak ingin upload config DB
+
+# ZIP build
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,646 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "hardware",
+      "password": "hardware123",
+      "nama": "Teknisi Hardware",
+      "role": "Teknisi Hardware",
+      "avatar": null
+    },
+    {
+      "id": 2,
+      "username": "casing",
+      "password": "casing123",
+      "nama": "Teknisi Casing",
+      "role": "Teknisi Casing",
+      "avatar": null
+    }
+  ],
+  "jenisAlat": [
+    {
+      "id": 1793606472509,
+      "nama": "INF HOT 11 PLAY"
+    },
+    {
+      "id": 1793606479620,
+      "nama": "INF HOT 50I"
+    },
+    {
+      "id": 1793606491707,
+      "nama": "INF HOT 60I"
+    },
+    {
+      "id": 1793606502908,
+      "nama": "INF SMART 10"
+    },
+    {
+      "id": 1793606512003,
+      "nama": "INF SMART 20"
+    },
+    {
+      "id": 1793606464636,
+      "nama": "INF SMART 6+"
+    },
+    {
+      "id": 1793608644593,
+      "nama": "PC"
+    },
+    {
+      "id": 1793608657192,
+      "nama": "SAMSUNG"
+    }
+  ],
+  "kategoriLokasi": [
+    {
+      "id": 6,
+      "nama": "Admin Stock"
+    },
+    {
+      "id": 4,
+      "nama": "Hardware Andika"
+    },
+    {
+      "id": 1795063675630,
+      "nama": "Lapas Banceuy"
+    },
+    {
+      "id": 1795063674335,
+      "nama": "Lapas Banyuwangi"
+    },
+    {
+      "id": 1795063674609,
+      "nama": "Lapas Batang"
+    },
+    {
+      "id": 1795063675046,
+      "nama": "Lapas Bekasi"
+    },
+    {
+      "id": 1795063678477,
+      "nama": "Lapas Bogor"
+    },
+    {
+      "id": 1795063679710,
+      "nama": "Lapas Bojonegoro"
+    },
+    {
+      "id": 1795063678094,
+      "nama": "Lapas Brebes"
+    },
+    {
+      "id": 1795063675312,
+      "nama": "Lapas Cebongan / Sleman"
+    },
+    {
+      "id": 1795063683247,
+      "nama": "Lapas Ciamis"
+    },
+    {
+      "id": 1795063680966,
+      "nama": "Lapas Cikarang"
+    },
+    {
+      "id": 1795063679756,
+      "nama": "Lapas Cilegon"
+    },
+    {
+      "id": 1795063676211,
+      "nama": "Lapas Cirebon"
+    },
+    {
+      "id": 1795063676800,
+      "nama": "Lapas Garut"
+    },
+    {
+      "id": 1795063677911,
+      "nama": "Lapas Indramayu"
+    },
+    {
+      "id": 1795063678078,
+      "nama": "Lapas Jember"
+    },
+    {
+      "id": 1795063676977,
+      "nama": "Lapas Jombang"
+    },
+    {
+      "id": 1795063681564,
+      "nama": "Lapas Karanganyar"
+    },
+    {
+      "id": 1795063682359,
+      "nama": "Lapas Karawang"
+    },
+    {
+      "id": 1795063675393,
+      "nama": "Lapas Kayu Agung"
+    },
+    {
+      "id": 1795063677380,
+      "nama": "Lapas Kediri"
+    },
+    {
+      "id": 1795063675633,
+      "nama": "Lapas Kelas IIA Subang"
+    },
+    {
+      "id": 1795063681341,
+      "nama": "Lapas Kerobokan"
+    },
+    {
+      "id": 1795063683070,
+      "nama": "Lapas Klaten"
+    },
+    {
+      "id": 1795063679916,
+      "nama": "Lapas Kuningan"
+    },
+    {
+      "id": 1795063682355,
+      "nama": "Lapas Lamongan"
+    },
+    {
+      "id": 1795063676743,
+      "nama": "Lapas Lumajang"
+    },
+    {
+      "id": 1795063681777,
+      "nama": "Lapas Madiun Kelas I"
+    },
+    {
+      "id": 1795063678244,
+      "nama": "Lapas Magelang"
+    },
+    {
+      "id": 1795063680120,
+      "nama": "Lapas Majalengka"
+    },
+    {
+      "id": 1795063680853,
+      "nama": "Lapas Malang"
+    },
+    {
+      "id": 1795063675237,
+      "nama": "Lapas Ngaseman NK"
+    },
+    {
+      "id": 1795063678745,
+      "nama": "Lapas Pasuruan"
+    },
+    {
+      "id": 1795063677378,
+      "nama": "Lapas Pati"
+    },
+    {
+      "id": 1795063673972,
+      "nama": "Lapas Pekalongan"
+    },
+    {
+      "id": 1795063681477,
+      "nama": "Lapas Purwakarta"
+    },
+    {
+      "id": 1795063677166,
+      "nama": "Lapas Purwodadi"
+    },
+    {
+      "id": 1795063676072,
+      "nama": "Lapas Purwokerto"
+    },
+    {
+      "id": 1795063681083,
+      "nama": "Lapas Serang"
+    },
+    {
+      "id": 1795063675227,
+      "nama": "Lapas Sidoarjo"
+    },
+    {
+      "id": 1795063673899,
+      "nama": "Lapas Singaraja"
+    },
+    {
+      "id": 1795063681502,
+      "nama": "Lapas Slawi"
+    },
+    {
+      "id": 1795063681647,
+      "nama": "Lapas Sragen"
+    },
+    {
+      "id": 1795063677538,
+      "nama": "Lapas Sumedang"
+    },
+    {
+      "id": 1795063681805,
+      "nama": "Lapas Tabanan"
+    },
+    {
+      "id": 1795063678860,
+      "nama": "Lapas Tangerang"
+    },
+    {
+      "id": 1795063677697,
+      "nama": "Lapas Tasikmalaya"
+    },
+    {
+      "id": 5,
+      "nama": "Lapas Tegal"
+    },
+    {
+      "id": 1795063682815,
+      "nama": "Lapas Terbuka Nusakambangan"
+    },
+    {
+      "id": 1795063678876,
+      "nama": "Lapas Tuban"
+    },
+    {
+      "id": 1795063677831,
+      "nama": "Lapas Tulung Agung"
+    },
+    {
+      "id": 1795063683128,
+      "nama": "Lapas Wirogunan"
+    },
+    {
+      "id": 1795063680355,
+      "nama": "Lapas Wonogiri"
+    },
+    {
+      "id": 1795063681031,
+      "nama": "Lapas Wonosari"
+    },
+    {
+      "id": 1795063680592,
+      "nama": "LPKA Bandung"
+    },
+    {
+      "id": 1795063678265,
+      "nama": "LPKA Karangasem"
+    },
+    {
+      "id": 1795063683774,
+      "nama": "LPKA Kutoarjo"
+    },
+    {
+      "id": 1795063682385,
+      "nama": "LPKA Wonosari"
+    },
+    {
+      "id": 1795063683194,
+      "nama": "LPN Bangli"
+    },
+    {
+      "id": 1795063681795,
+      "nama": "LPN Cirebon"
+    },
+    {
+      "id": 1795063675710,
+      "nama": "LPN Nusakambangan"
+    },
+    {
+      "id": 1795063677950,
+      "nama": "LPN Pamekasan"
+    },
+    {
+      "id": 1795063679035,
+      "nama": "LPN Purwokerto"
+    },
+    {
+      "id": 1795063682258,
+      "nama": "LPN Yogyakarta"
+    },
+    {
+      "id": 1795063677898,
+      "nama": "LPP Kerobokan"
+    },
+    {
+      "id": 1795063674649,
+      "nama": "LPP Malang"
+    },
+    {
+      "id": 1795063681802,
+      "nama": "LPP Semarang"
+    },
+    {
+      "id": 1795063683790,
+      "nama": "LPP Yogyakarta"
+    },
+    {
+      "id": 1795063676797,
+      "nama": "Ponpes Al Anwar Jombang"
+    },
+    {
+      "id": 1795063682237,
+      "nama": "Ponpes Al Badrul Falah Putra"
+    },
+    {
+      "id": 9,
+      "nama": "Ponpes Al Falah 2"
+    },
+    {
+      "id": 1795063675495,
+      "nama": "Ponpes Al Falah Ploso Pusat"
+    },
+    {
+      "id": 1795063674011,
+      "nama": "Ponpes Al Falah Putra"
+    },
+    {
+      "id": 1795063683339,
+      "nama": "Ponpes Al Falah Putra II (Umum)"
+    },
+    {
+      "id": 1795063676082,
+      "nama": "Ponpes Al Falah Putra Induk II"
+    },
+    {
+      "id": 1795063678165,
+      "nama": "Ponpes Al Lathifiyyah II"
+    },
+    {
+      "id": 1795063674841,
+      "nama": "Ponpes Albadrul Falah Putri"
+    },
+    {
+      "id": 1795063677499,
+      "nama": "Ponpes Albasyariyah Madiun"
+    },
+    {
+      "id": 1795063679524,
+      "nama": "Ponpes Ar Ridlo Nganjuk"
+    },
+    {
+      "id": 1795063675498,
+      "nama": "Ponpes Assalam"
+    },
+    {
+      "id": 1795063680740,
+      "nama": "Ponpes Azzahir"
+    },
+    {
+      "id": 1795063676235,
+      "nama": "Ponpes Bidayatul Hidayah MJK"
+    },
+    {
+      "id": 1795063681139,
+      "nama": "Ponpes Darul Amanah"
+    },
+    {
+      "id": 1795063680524,
+      "nama": "Ponpes Darul Arqom"
+    },
+    {
+      "id": 1795063683166,
+      "nama": "Ponpes Darul Falah Dawung"
+    },
+    {
+      "id": 1795063680629,
+      "nama": "Ponpes Darunnaim Lungge"
+    },
+    {
+      "id": 1795063679216,
+      "nama": "Ponpes Darussa'adah Lirboyo Kediri"
+    },
+    {
+      "id": 1795063676689,
+      "nama": "Ponpes Darussalam Blokagung"
+    },
+    {
+      "id": 1795063683039,
+      "nama": "Ponpes Darussalam Mekar Agung"
+    },
+    {
+      "id": 1795063675705,
+      "nama": "Ponpes Dawung Putri"
+    },
+    {
+      "id": 1795063682653,
+      "nama": "Ponpes Lirboyo PI"
+    },
+    {
+      "id": 1795063676113,
+      "nama": "Ponpes Lirboyo Putra"
+    },
+    {
+      "id": 1795063679956,
+      "nama": "Ponpes MBS Bumiayu Brebes"
+    },
+    {
+      "id": 1795063681283,
+      "nama": "Ponpes Miftakhul Ulum"
+    },
+    {
+      "id": 1795063681954,
+      "nama": "Ponpes Nurussalam Blitar"
+    },
+    {
+      "id": 1795063675173,
+      "nama": "Ponpes Raudlotul Ulum II"
+    },
+    {
+      "id": 1795063683776,
+      "nama": "Ponpes Roudhotul Ulum"
+    },
+    {
+      "id": 1795063674213,
+      "nama": "Ponpes S.A Al Khuzaimah"
+    },
+    {
+      "id": 1795063674004,
+      "nama": "Ponpes S.A Ma'hadul Qur'an"
+    },
+    {
+      "id": 2,
+      "nama": "Ponpes Salafiyah Sukorejo"
+    },
+    {
+      "id": 1795063679716,
+      "nama": "Ponpes Tarbiyatul Qur'an"
+    },
+    {
+      "id": 1795063675516,
+      "nama": "Ponpes Tazakka"
+    },
+    {
+      "id": 1795063680176,
+      "nama": "Ponpes Termas"
+    },
+    {
+      "id": 1795063683404,
+      "nama": "Ponpes Wiriosoedarmo Gombong"
+    },
+    {
+      "id": 1795063679107,
+      "nama": "R Bantul"
+    },
+    {
+      "id": 1795063680650,
+      "nama": "RTP Bandung"
+    },
+    {
+      "id": 1795063679437,
+      "nama": "RTP Surabaya"
+    },
+    {
+      "id": 1795063682985,
+      "nama": "Rutan Bandung"
+    },
+    {
+      "id": 3,
+      "nama": "Rutan Bangil"
+    },
+    {
+      "id": 1795063675841,
+      "nama": "Rutan Bangkalan"
+    },
+    {
+      "id": 1795063681844,
+      "nama": "Rutan Bangli"
+    },
+    {
+      "id": 1795063682602,
+      "nama": "Rutan Banjarnegara"
+    },
+    {
+      "id": 1795063679706,
+      "nama": "Rutan Banyumas"
+    },
+    {
+      "id": 1795063678813,
+      "nama": "Rutan Blora"
+    },
+    {
+      "id": 1795063677791,
+      "nama": "Rutan Boyolali"
+    },
+    {
+      "id": 1795063682986,
+      "nama": "Rutan Cirebon"
+    },
+    {
+      "id": 1795063673980,
+      "nama": "Rutan Demak"
+    },
+    {
+      "id": 1795063680128,
+      "nama": "Rutan Garut"
+    },
+    {
+      "id": 1795077649489,
+      "nama": "Rutan Gianyar"
+    },
+    {
+      "id": 1795063680968,
+      "nama": "Rutan Gresik"
+    },
+    {
+      "id": 1795063679489,
+      "nama": "Rutan Jepara"
+    },
+    {
+      "id": 1795063679473,
+      "nama": "Rutan Kebumen"
+    },
+    {
+      "id": 1795063683302,
+      "nama": "Rutan Magetan"
+    },
+    {
+      "id": 1795063678360,
+      "nama": "Rutan Negara"
+    },
+    {
+      "id": 1795063678132,
+      "nama": "Rutan Nganjuk"
+    },
+    {
+      "id": 1795063674812,
+      "nama": "Rutan Pacitan"
+    },
+    {
+      "id": 1795063674438,
+      "nama": "Rutan Pekalongan"
+    },
+    {
+      "id": 1795063680040,
+      "nama": "Rutan Pemalang"
+    },
+    {
+      "id": 1795063681106,
+      "nama": "Rutan Ponorogo"
+    },
+    {
+      "id": 1795063674467,
+      "nama": "Rutan Prabumulih"
+    },
+    {
+      "id": 1795063677265,
+      "nama": "Rutan Purbalingga"
+    },
+    {
+      "id": 1795063678370,
+      "nama": "Rutan Purworejo"
+    },
+    {
+      "id": 1795063675727,
+      "nama": "Rutan Rembang"
+    },
+    {
+      "id": 1795063678021,
+      "nama": "Rutan Salatiga"
+    },
+    {
+      "id": 1795063676140,
+      "nama": "Rutan Serang"
+    },
+    {
+      "id": 1795063676738,
+      "nama": "Rutan Sumenep"
+    },
+    {
+      "id": 1795063679787,
+      "nama": "Rutan Surabaya/Medaaeng"
+    },
+    {
+      "id": 1795063679046,
+      "nama": "Rutan Surakarta"
+    },
+    {
+      "id": 1795063678814,
+      "nama": "Rutan Tangerang"
+    },
+    {
+      "id": 1795063676291,
+      "nama": "Rutan Trenggalek"
+    },
+    {
+      "id": 1795063674674,
+      "nama": "Rutan Wirogunan"
+    },
+    {
+      "id": 1795063674549,
+      "nama": "Rutan Wonosobo"
+    },
+    {
+      "id": 1795063677086,
+      "nama": "SMP IT Ihsanul Fikri"
+    },
+    {
+      "id": 8,
+      "nama": "Teknisi Alfin"
+    },
+    {
+      "id": 7,
+      "nama": "Teknisi Latif"
+    },
+    {
+      "id": 1,
+      "nama": "Teknisi Limin"
+    }
+  ],
+  "laporan": [],
+  "db": "casing_paket"
+}
